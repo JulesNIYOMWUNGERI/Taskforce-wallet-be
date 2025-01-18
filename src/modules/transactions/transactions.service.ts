@@ -7,12 +7,11 @@ import { GetReportDto, TransactionDto, UpdateTransactionDto } from './dto/transa
 import { Account } from '../accounts/entities/account.entity';
 import { Category } from '../categories/entities/category.entity';
 import PdfPrinter from 'pdfmake';
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
-// import * as pdfMake from 'pdfmake';
-// import * as path from 'path';
+interface TransactionResponse extends Omit<Transaction, 'user' | 'account'> {
+  budgetExceedMessage?: string;
+}
 
 @Injectable()
 export class TransactionsService {
@@ -30,7 +29,7 @@ export class TransactionsService {
         private readonly transactionRepository: Repository<Transaction>,
     ) {}
 
-    async createTransaction(createTransactionDto: TransactionDto, userId: string, accountId: string, categoryId: string): Promise<Omit<Transaction, 'user'>> {
+    async createTransaction(createTransactionDto: TransactionDto, userId: string, accountId: string, categoryId: string): Promise<TransactionResponse> {
         const user = await this.userRepository.findOneBy({
             id: userId
         });
@@ -78,6 +77,23 @@ export class TransactionsService {
             });
         }
 
+        const transactions = await this.transactionRepository.find({
+          where: { user: { id: userId } },
+        });
+
+        let totalIncome = 0;
+        let totalExpenses = createTransactionDto?.type === 'expense' ? createTransactionDto?.amount : 0;
+        // let budgetExceedMessage: string;
+
+        transactions.forEach((t) => {
+          const amount = typeof t.amount === 'number' ? t.amount : parseFloat(t.amount) || 0;
+          if (t.type === 'income') {
+            totalIncome += amount;
+          } else if (t.type === 'expense') {
+            totalExpenses += amount;
+          }
+        });
+
         const transaction = this.transactionRepository.create({
             ...createTransactionDto,
             account,
@@ -86,19 +102,56 @@ export class TransactionsService {
             type: createTransactionDto.type as "income" | "expense",
         });
 
+        // Update the account balance based on the transaction type
+        if (transaction.type === 'income') {
+          const balance = typeof account.balance === 'number' ? account.balance : parseFloat(account.balance) || 0;
+          const newBalance = balance + createTransactionDto?.amount
+          account.balance = Number(newBalance);
+        } else if (transaction.type === 'expense') {
+            const balance = typeof account.balance === 'number' ? account.balance : parseFloat(account.balance) || 0;
+            const newBalance = balance - createTransactionDto?.amount;
+            account.balance = Number(newBalance);
+        }
+
+        // Save the updated account balance
+        await this.accountRepository.save(account);
+
         const savedTransaction = await this.transactionRepository.save(transaction);
 
-        const { user: transactionUser, ...transactionWithoutUser } = savedTransaction;
 
-        return transactionWithoutUser;
+        const { user: transactionUser, account: transactionAccount,  ...transactionWithoutUserAndAccount } = savedTransaction;
+
+        let transactionResponse: TransactionResponse = { ...transactionWithoutUserAndAccount };
+
+        if (totalExpenses > user?.budgetLimit) {
+          transactionResponse = {
+            ...transactionWithoutUserAndAccount,
+            budgetExceedMessage: `You have exceeded your budget limit of ${Number(user.budgetLimit)}. Your current expenses are ${totalExpenses}.`,
+          };
+        }
+
+        return transactionResponse;
     }
 
     async findAll(userId: string): Promise<Transaction[]> {
-        return this.transactionRepository.find({
+      const transactions = await this.transactionRepository.find({
           where: { user: { id: userId } },
           relations: ['account', 'category'],
-        });
-    }
+      });
+  
+      for (const transaction of transactions) {
+          const category = transaction.category;
+          
+          if (category.parentId) {
+              const parentCategory = await this.categoryRepository.findOne({
+                  where: { id: category.parentId },
+              });
+              category.parent = parentCategory;
+          }
+      }
+  
+      return transactions;
+    }  
 
     async findOne(userId: string, transactionId: string): Promise<Transaction> {
         const transaction = await this.transactionRepository.findOne({

@@ -29,7 +29,7 @@ export class TransactionsController {
         @Param('categoryId') categoryId: string,
         @Body() createTransactionDto: TransactionDto,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<{message: string, transaction: Omit<Transaction, 'user'>}> {
+    ): Promise<{message: string, transaction: Omit<Transaction, 'user' | 'account'>}> {
         const { sub } = authUser;
         const transaction = await this.transactionsService.createTransaction(createTransactionDto, sub, accountId, categoryId);
 

@@ -11,14 +11,6 @@ export class AccountDto {
   name: string;
 
   @ApiProperty({
-    example: 200000,
-    description: 'The balance of the account',
-  })
-  @IsNumber()
-  @IsNotEmpty()
-  balance: number;
-
-  @ApiProperty({
     example: 'Bank',
     description: 'The type of the account',
   })

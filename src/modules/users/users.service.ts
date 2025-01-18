@@ -1,8 +1,8 @@
-import { BadRequestException, ConflictException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { UserDto } from './dto/user.dto';
+import { SetBudgetDto, UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt'; 
 
 @Injectable()
@@ -83,4 +83,29 @@ export class UsersService {
         }
         return user;
     }
+
+    async setBudgetLimit(userId: string, setBudgetDto: SetBudgetDto): Promise<User> {
+      const { budgetLimit } = setBudgetDto;
+    
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+    
+      user.budgetLimit = budgetLimit;
+      return this.userRepository.save(user);
+    }
+
+    async findBudgetLimit(userId: string): Promise<{budgetLimit: number}> {
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      const userBudgetLimit = {
+        budgetLimit: user.budgetLimit
+      };
+
+      return userBudgetLimit;
+  }
 }
