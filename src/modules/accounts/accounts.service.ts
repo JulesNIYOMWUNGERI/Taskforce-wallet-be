@@ -51,6 +51,7 @@ export class AccountsService {
 
         const account = this.accountRepository.create({
             ...createAccountDto,
+            balance: 0,
             user,
         });
 
