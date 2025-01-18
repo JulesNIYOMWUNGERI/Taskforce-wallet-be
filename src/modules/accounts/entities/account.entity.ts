@@ -11,7 +11,7 @@ export class Account extends TableBasicFieldEntity {
     @Column({ type: 'varchar', length: 255 })
     name: string;
 
-    @Column({ type: 'enum', enum: ['Bank', 'Mobile Money', 'Cash', 'Credit Card'], default: 'Cash' })
+    @Column({ type: 'enum', enum: ['Bank', 'Mobile Money', 'Cash'], default: 'Cash' })
     type: string;
 
     @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })

@@ -26,9 +26,14 @@ export class AccountsController {
     async createAccount(
         @Body() createAccountDto: AccountDto,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<Omit<Account, 'user'>> {
+    ): Promise<{message: string, account: Omit<Account, 'user'>}> {
         const { sub } = authUser;
-        return await this.accountsService.createAccount(createAccountDto, sub);
+        const account = await this.accountsService.createAccount(createAccountDto, sub);
+
+        return {
+            message: "Account created successful",
+            account
+        }
     }
 
     // GET, list all accounts
@@ -65,9 +70,14 @@ export class AccountsController {
         @Param('id') id: string,
         @Body() updateAccountDto: UpdateAccountDto,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<Omit<Account, 'user'>> {
+    ): Promise<{message: string, account: Omit<Account, 'user'>}> {
         const { sub } = authUser;
-        return await this.accountsService.updateAccount(id, updateAccountDto, sub);
+        const account = await this.accountsService.updateAccount(id, updateAccountDto, sub);
+
+        return {
+            message: "Account updated successful",
+            account
+        }
     }
 
     // DELETE, delete account by id
@@ -78,8 +88,13 @@ export class AccountsController {
     async remove(
         @Param('id') id: string,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<void> {
+    ): Promise<{message: string, res: void}> {
         const { sub } = authUser;
-        return await this.accountsService.removeAccount(id, sub);
+        const res = await this.accountsService.removeAccount(id, sub);
+
+        return {
+            message: "Account deleted successful",
+            res
+        }
     }
 }

@@ -72,3 +72,37 @@ export class UpdateTransactionDto extends PartialType(TransactionDto) {
     @IsOptional()
     transactionDate?: string;
 }
+
+export class GetReportDto {
+    @ApiProperty({
+      description: 'Start date of the report range (YYYY-MM-DD)',
+      example: '2025-01-01',
+    })
+    @IsDateString()
+    @IsOptional()
+    startDate?: string;
+  
+    @ApiProperty({
+      description: 'End date of the report range (YYYY-MM-DD)',
+      example: '2025-01-31',
+    })
+    @IsDateString()
+    @IsOptional()
+    endDate?: string;
+  
+    // @ApiProperty({
+    //   description: 'Account ID to filter transactions',
+    //   example: 'account-123',
+    // })
+    // @IsString()
+    // @IsOptional()
+    // accountId?: string;
+  
+    // @ApiProperty({
+    //   description: 'Category ID to filter transactions',
+    //   example: 'category-456',
+    // })
+    // @IsString()
+    // @IsOptional()
+    // categoryId?: string;
+  }

@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { TransactionDto, UpdateTransactionDto } from './dto/transaction.dto';
+import { GetReportDto, TransactionDto, UpdateTransactionDto } from './dto/transaction.dto';
 import { JwtClaimsDataDto } from 'src/common/dtos/jwt-data.dto';
 import { AuthUser } from 'src/common/decorators/auth-user.decorator';
 import { Transaction } from './entities/transaction.entity';
+import { Response } from 'express';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -28,9 +29,14 @@ export class TransactionsController {
         @Param('categoryId') categoryId: string,
         @Body() createTransactionDto: TransactionDto,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<Omit<Transaction, 'user'>> {
+    ): Promise<{message: string, transaction: Omit<Transaction, 'user'>}> {
         const { sub } = authUser;
-        return await this.transactionsService.createTransaction(createTransactionDto, sub, accountId, categoryId);
+        const transaction = await this.transactionsService.createTransaction(createTransactionDto, sub, accountId, categoryId);
+
+        return {
+            message: "Transaction created successful",
+            transaction
+        }
     }
 
     // GET, list all transactions
@@ -67,9 +73,14 @@ export class TransactionsController {
         @Param('id') id: string,
         @Body() updateTransactionDto: UpdateTransactionDto,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<Omit<Transaction, 'user'>> {
+    ): Promise<{message: string, res: Omit<Transaction, 'user'>}> {
         const { sub } = authUser;
-        return await this.transactionsService.updateTransaction(sub, id, updateTransactionDto);
+        const res = await this.transactionsService.updateTransaction(sub, id, updateTransactionDto);
+        
+        return {
+            message: "Transaction updated successful",
+            res
+        }
     }
 
     // DELETE, delete transaction by id
@@ -80,8 +91,34 @@ export class TransactionsController {
     async remove(
         @Param('id') id: string,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<void> {
+    ): Promise<{message: string, res: void}> {
         const { sub } = authUser;
-        return await this.transactionsService.deleteTransaction(sub, id);
+        const res = await this.transactionsService.deleteTransaction(sub, id);
+
+        return {
+            message: "Transaction deleted successful",
+            res
+        }
+    }
+
+    // GET, generate report
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(AuthGuard('jwt'))
+    @Get('report/pdf')
+    async getPdfReport(
+      @Query() getReportDto: GetReportDto,
+      @AuthUser() authUser: JwtClaimsDataDto,
+      @Res() res: Response,
+    ) {
+        const { sub } = authUser;
+        const pdfBuffer = await this.transactionsService.generatePdfReport(getReportDto, sub);
+
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename=transaction-report.pdf`,
+            'Content-Length': pdfBuffer.length,
+        });
+
+        res.end(pdfBuffer);
     }
 }

@@ -25,9 +25,14 @@ export class CategoriesController {
     async createCategory(
         @Body() createCategoryDto: CreateCategoryDto,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<Omit<Category, 'user'>> {
+    ): Promise<{message: string, category: Omit<Category, 'user'>}> {
         const { sub } = authUser;
-        return await this.categoriesService.createCategory(createCategoryDto, sub);
+        const category = await this.categoriesService.createCategory(createCategoryDto, sub);
+
+        return {
+            message: "Created successful",
+            category
+        }
     }
 
     // GET, list all categories
@@ -64,9 +69,14 @@ export class CategoriesController {
         @Param('id') id: string,
         @Body() updateCategoryDto: UpdateCategoryDto,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<Omit<Category, 'user'>> {
+    ): Promise<{message: string, res: Omit<Category, 'user'>}> {
         const { sub } = authUser;
-        return await this.categoriesService.updateCategory(id, updateCategoryDto, sub);
+        const res = await this.categoriesService.updateCategory(id, updateCategoryDto, sub);
+
+        return {
+            message: "Updated successful",
+            res
+        }
     }
 
     // DELETE, delete category by id
@@ -77,8 +87,13 @@ export class CategoriesController {
     async remove(
         @Param('id') id: string,
         @AuthUser() authUser: JwtClaimsDataDto,
-    ): Promise<void> {
+    ): Promise<{message: string, res: void}> {
         const { sub } = authUser;
-        return await this.categoriesService.deleteCategory(id, sub);
+        const res = await this.categoriesService.deleteCategory(id, sub);
+
+        return {
+            message: "Deleted successful",
+            res
+        }
     }
 }
