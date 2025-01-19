@@ -1,99 +1,172 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Wallet Management Application
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Project Overview
 
-## Description
+This Wallet Management Application is designed to help users effortlessly manage their finances by organizing transactions, monitoring expenses, and gaining valuable insights. 
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Project setup
+### Before diving deep into the project, here are some important URLs to access different parts of the project:
+- Frontend repository link: 
+    - https://github.com/JulesNIYOMWUNGERI/Taskforce-wallet-fe
+- Hosted frontend link: 
+    - https://wallet-management-five.vercel.app/
+- Backend repository link: 
+    - https://github.com/JulesNIYOMWUNGERI/Taskforce-wallet-be
+- Hosted backend link:
+    - https://wallet-management-api-unf0.onrender.com/docs
 
-```bash
-$ yarn install
-```
+### Note that:
+- Backend is hosted on Render 
+- Frontend is hosted on vercel
 
-## Compile and run the project
+Below is an overview of what to expect from the project: 
 
-```bash
-# development
-$ yarn run start
 
-# watch mode
-$ yarn run start:dev
+### Functionalities
+#### 1. Account Management
 
-# production mode
-$ yarn run start:prod
-```
+- Add, view, edit, and delete an accounts (e.g., bank accounts, mobile wallets, cash).
 
-## Run tests
+#### 2. Transaction Tracking
 
-```bash
-# unit tests
-$ yarn run test
+- Record income and expenses with detailed information, including dates, amounts, and associated accounts.
+- Organize transactions by categories and subcategories for better financial analysis.
+- Filter transactions by date range (start date and end date).
 
-# e2e tests
-$ yarn run test:e2e
+#### 3. Categories and Subcategories
 
-# test coverage
-$ yarn run test:cov
-```
+- Create and manage categories and subcategories for a more granular view of expenses and income.
+- Link transactions to specific categories or subcategories.
 
-## Deployment
+#### 4. Budget Management
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- Set budget limits and receive notifications when your expenses exceed the set budget.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+#### 5. Financial Reports
 
-```bash
-$ yarn install -g mau
-$ mau deploy
-```
+- Generate PDF reports for income, expenses, and overall financial performance within a given date range.
+- View summarized data, including total income, total expenses, and account balances.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### 6. Visual Insights
 
-## Resources
+- Display financial data in tables for better visualization of spending habits and trends.
 
-Check out a few resources that may come in handy when working with NestJS:
+#### 7. Notifications
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- Get notified when budgets are exceeded to keep your spending in check.
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### How to Start the Project
+#### Prerequisites
 
-## License
+Ensure you have the following installed on your system:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+1. Node.js (v18 or higher)
+2. Yarn
+3. PostgreSQL (for database management)
+
+#### Installation Steps
+
+Follow these steps to get the backend project running:
+
+1. Clone the Repository by running:
+    - git clone "backend repository url"
+        - BE repository url ex: https://github.com/JulesNIYOMWUNGERI/Taskforce-wallet-be.git
+    - cd "project name (Taskforce-wallet-be)"
+
+2. Install Dependencies by running:
+    - yarn install
+
+3. Set Up BackEnd Environment Variables, create .env file in the root folder of the project add the following
+    - example of .env:
+        - PORT=
+        - DB_PORT=
+        - DB_HOST=
+        - DB_USER=
+        - DB_PASSWORD=
+        - DB_NAME=
+        - NODE_ENV=
+        - DB_SYNCHRONIZE=true
+        - DB_SSL=false
+        - JWT_SECRET=your-jwt-secret
+        - JWT_EXPIRES_IN=40000000
+        - BCRYPT_SALT_ROUNDS=10
+
+4. Start Backend by running:
+    - yarn start:dev
+
+
+Follow these steps to get the frontend project running:
+
+1. Clone the Repository by running:
+    - git clone "frontend repository url"
+        - FE repository url ex: https://github.com/JulesNIYOMWUNGERI/Taskforce-wallet-fe.git
+    - cd "project name (Taskforce-wallet-fe)"
+
+2. Install Dependencies by running:
+    - yarn install
+
+3. Set Up FrontEnd Environment Variables, create .env file in the root folder of the project add the following
+    - example of .env:
+        - VITE_PUBLIC_DEFAULT_API=
+
+4. Start the Frontend by running:
+    - yarn dev
+
+#### Access the Application
+
+Open your browser and visit:
+
+    - Frontend: http://localhost:{port}
+    - Backend API: http://localhost:{port}/docs
+
+## How to use the application
+### Frontend
+
+#### Landing page:
+- After successfully starting both the backend and frontend projects, navigate to the frontend URL. On the landing page, you'll find a welcome header, a brief paragraph introducing the project, and two buttons: one for signing up and the other for logging in.
+
+#### Sign Up page
+- If you're visiting the website for the first time, start by signing up with your full name, email, and password. The registration process is quick and does not require account verification. After successfully registering, you will be redirected to the Login page.
+
+#### Sign In page
+- On the Login page, simply enter your email and password to sign in. Upon successful login, you will be redirected to the Accounts page.
+
+#### Account page
+- On the Accounts page, data is displayed in a table. If you don't have any accounts yet, the table will display a "No Options" message, indicating that no accounts are currently available.
+
+- There is also a "Create Account" button on the Accounts page. Clicking this button opens a popup containing a form for creating a new account.
+
+- After creating accounts, the list of accounts will be displayed in the table, showing basic information along with a "View" button. Clicking the "View" button opens a popup that provides more detailed information about the account, along with two additional buttons: one for updating the account and another for deleting it.
+
+- Each newly created account will have a default balance of 0. As transactions are added, the balance will either increase or decrease depending on the transaction type (income or expenses).
+
+#### Transactions page
+- On the Transactions page, data is displayed in a table. If there are no transactions, the table will display a "No Options" message, indicating that no transactions are currently available.
+
+- There is also a "Create Transaction" button for adding a new transaction. Clicking it will open a popup containing a form for creating the transaction. The form includes a category input dropdown, which displays the categories you've created in the Category section, as well as a subcategory input dropdown. The subcategory options will be dynamically populated based on the selected category, as they are related to that category.
+
+-  There is onother button for generating report, which will show a popup for selecting date range and also a button to triger the report generation generate pdf report in that date range
+
+- Each transaction will have a "View" button to display more details. Clicking the button will open a popup showing the transaction details, along with options to update or delete the transaction.
+
+#### Categories page
+- On the Category page, there is a table displaying the categories. Each category has buttons to view, edit, and delete the category.
+
+- The "Edit" button will open a form to edit the selected category, while the "Delete" button will remove that specific category.
+
+- The "View" button will open another page displaying a table of subcategories related to that category. On this page, you can update or delete subcategories, as well as create new subcategories specific to that category using a "Create Subcategory" button.
+
+- Of course, on the Category page, there is also a "Create Category" button for adding a new category.
+
+#### Budget setting button and Logout button
+- On the side navigation, there is also a "Budget Setting" section. Clicking on it will open a popup displaying the current budget limit, along with an option to update the budget limit.
+
+- Another section, "Logout," in the side navigation will open a popup asking for confirmation to log out, with a button to confirm the logout action.
+
+
+### Backend
+- After starting the backend project, navigate to http://localhost:{port}/docs, where you'll find the Swagger documentation to interact with all the available endpoints.
