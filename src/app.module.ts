@@ -14,7 +14,10 @@ import { BudgetsModule } from './modules/budgets/budgets.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: [".env"],
+    }),
     AuthModule, 
     UsersModule, 
     AccountsModule, 
