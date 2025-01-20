@@ -83,7 +83,6 @@ export class TransactionsService {
 
         let totalIncome = 0;
         let totalExpenses = createTransactionDto?.type === 'expense' ? createTransactionDto?.amount : 0;
-        // let budgetExceedMessage: string;
 
         transactions.forEach((t) => {
           const amount = typeof t.amount === 'number' ? t.amount : parseFloat(t.amount) || 0;
